@@ -1,16 +1,36 @@
 <template>
-  <form class="card auth-card">
+  <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
       <div class="input-field">
-        <input id="email" type="text" class="validate" />
+        <input
+          id="email"
+          type="text"
+          v-model.trim="email"
+          :class="{ invalid: v$.email.$error }"
+        />
         <label for="email">Email</label>
-        <small class="helper-text invalid">Email</small>
+        <small
+          class="helper-text invalid"
+          v-for="(error, index) of v$.email.$errors"
+          :key="index"
+          >{{ printErrorEmail(error.$validator, error.$params) }}</small
+        >
       </div>
       <div class="input-field">
-        <input id="password" type="password" class="validate" />
+        <input
+          id="password"
+          type="password"
+          v-model.trim="password"
+          :class="{ invalid: v$.password.$error }"
+        />
         <label for="password">Пароль</label>
-        <small class="helper-text invalid">Password</small>
+        <small
+          class="helper-text invalid"
+          v-for="(error, index) of v$.password.$errors"
+          :key="index"
+          >{{ printErrorPassword(error.$validator, error.$params) }}</small
+        >
       </div>
     </div>
     <div class="card-action">
@@ -23,8 +43,71 @@
 
       <p class="center">
         Нет аккаунта?
-        <a href="/">Зарегистрироваться</a>
+        <router-link to="/register">Зарегистрироваться</router-link>
       </p>
     </div>
   </form>
 </template>
+
+<script>
+import useVuelidate from "@vuelidate/core";
+import { email, required, minLength } from "@vuelidate/validators";
+import messages from "@/utils/messages";
+export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  name: "login-page",
+  data: () => ({
+    email: "",
+    password: "",
+  }),
+  validations: {
+    email: { required, minLength: minLength(3), email },
+    password: { required, minLength: minLength(6) },
+  },
+  mounted() {
+    if (messages[this.$route.query.message]) {
+      this.$message(messages[this.$route.query.message]);
+    }
+  },
+  methods: {
+    async submitHandler() {
+      this.v$.$touch();
+      if (this.v$.$error) return;
+      const formDate = {
+        email: this.email,
+        password: this.password,
+      };
+      try {
+        await this.$store.dispatch("login", formDate);
+        this.$router.push("/");
+      } catch (error) {
+        console.log("no login");
+      }
+    },
+    printErrorEmail($name, $param) {
+      if ($name === "required") {
+        return "Поле не должно быть пустым";
+      } else if ($name === "minLength") {
+        return "Минимальная длина должна быть " + $param.min + " символa";
+      } else if ($name === "email") {
+        return "Введите корректный Email";
+      }
+    },
+    printErrorPassword($name, $param) {
+      if ($name === "required") {
+        return "Введите пароль";
+      } else if ($name === "minLength") {
+        return (
+          "Пароль должен быть длинной " +
+          $param.min +
+          " символов." +
+          "Сейчас он " +
+          this.password.length
+        );
+      }
+    },
+  },
+};
+</script>
