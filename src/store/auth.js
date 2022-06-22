@@ -20,7 +20,7 @@ export default {
         const uid = await dispatch("getUid");
         const db = getDatabase();
         set(ref(db, `/users/${uid}/info`), {
-          bill: 100000,
+          bill: 1000,
           name,
         });
       } catch (e) {
@@ -32,8 +32,9 @@ export default {
       const user = firebase.auth().currentUser;
       return user ? user.uid : null;
     },
-    async logout() {
+    async logout({ commit }) {
       await firebase.auth().signOut();
+      commit("clearInfo");
     },
   },
 };

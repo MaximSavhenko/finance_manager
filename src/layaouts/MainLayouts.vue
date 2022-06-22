@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="app-main-layout">
+    <LoaderVue v-if="loading" />
+    <div class="app-main-layout" v-else>
       <NavBar @open:navBar="isOpen = !isOpen" />
       <SideBar v-model="isOpen" :isOpen="isOpen" />
       <main class="app-content" :class="{ full: !isOpen }">
@@ -21,11 +22,19 @@
 <script>
 import NavBar from "@/components/App/NavBar.vue";
 import SideBar from "@/components/App/SideBar.vue";
+// import LoaderVue from "@/components/App/LoaderVue.vue";
 export default {
   name: "main-layouts",
   data: () => ({
     isOpen: true,
+    loading: true,
   }),
+  async mounted() {
+    if (!Object.keys(this.$store.getters.info).length) {
+      await this.$store.dispatch("fetchInfo");
+    }
+    this.loading = false;
+  },
   components: { NavBar, SideBar },
 };
 </script>

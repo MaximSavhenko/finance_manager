@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import messagePlagin from "@/utils/message.plagin";
+import LoaderVue from "@/components/App/LoaderVue.vue";
 import "./registerServiceWorker";
 import "materialize-css/dist/js/materialize.min";
 
@@ -27,6 +28,7 @@ firebase.auth().onAuthStateChanged(() => {
       .use(store)
       .use(router)
       .use(messagePlagin)
+      .component("LoaderVue", LoaderVue)
       .mount("#app");
   }
 });
