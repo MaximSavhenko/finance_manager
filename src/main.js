@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import messagePlagin from "@/utils/message.plagin";
 import LoaderVue from "@/components/App/LoaderVue.vue";
+import tooltipDerective from "@/derectives/tooltip.derective";
 import "./registerServiceWorker";
 import "materialize-css/dist/js/materialize.min";
 
@@ -29,6 +30,7 @@ firebase.auth().onAuthStateChanged(() => {
       .use(router)
       .use(messagePlagin)
       .component("LoaderVue", LoaderVue)
+      .directive("tooltip", tooltipDerective)
       .mount("#app");
   }
 });
