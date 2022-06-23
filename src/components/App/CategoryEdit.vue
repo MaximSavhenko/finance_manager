@@ -20,7 +20,12 @@
         </div>
 
         <div class="input-field">
-          <input type="text" id="name" v-model="name" />
+          <input
+            type="text"
+            id="name"
+            v-model="name"
+            :class="{ invalid: v$.name.$error }"
+          />
           <label for="name">Название</label>
           <span
             class="helper-text invalid"
@@ -101,9 +106,6 @@ export default {
         };
         await this.$store.dispatch("updateCategory", categoryData);
 
-        // this.name = "";
-        // this.limit = 100;
-        // this.v$.$reset();
         this.$message("Категория успешно обновлена");
         this.$emit("updated", categoryData);
       } catch (e) {
