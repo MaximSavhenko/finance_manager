@@ -33,9 +33,7 @@ export default {
   data: () => ({
     date: new Date(),
   }),
-  mounted() {
-    console.log(this.rates);
-  },
+  mounted() {},
   methods: {
     dateFilter(value, format = "date") {
       value = this.date;

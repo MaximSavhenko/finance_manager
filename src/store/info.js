@@ -1,5 +1,7 @@
-// import firebase from "firebase/compat/app";
-import { getDatabase, ref, onValue } from "firebase/database";
+import firebase from "firebase/compat/app";
+import "firebase/compat/database";
+
+// import { getDatabase, ref, onValue } from "firebase/database";
 
 export default {
   state: {
@@ -17,17 +19,10 @@ export default {
     async fetchInfo({ dispatch, commit }) {
       try {
         const uid = await dispatch("getUid");
-        const db = getDatabase();
-        return onValue(
-          ref(db, `users/${uid}/info`),
-          (snapshot) => {
-            const info = snapshot.val();
-            commit("setInfo", info);
-          },
-          {
-            onlyOnce: true,
-          }
-        );
+        const info = (
+          await firebase.database().ref(`/users/${uid}/info`).once("value")
+        ).val();
+        commit("setInfo", info);
       } catch (e) {
         console.log(e);
       }
