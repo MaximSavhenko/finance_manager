@@ -26,7 +26,7 @@
 <script>
 import NavBar from "@/components/App/NavBar.vue";
 import SideBar from "@/components/App/SideBar.vue";
-// import LoaderVue from "@/components/App/LoaderVue.vue";
+import messages from "@/utils/messages";
 export default {
   name: "main-layouts",
   data: () => ({
@@ -38,6 +38,17 @@ export default {
       await this.$store.dispatch("fetchInfo");
     }
     this.loading = false;
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    },
+  },
+  watch: {
+    error(fdError) {
+      console.log(fdError);
+      this.$error(messages[fdError.code] || "Что-то пошло не так");
+    },
   },
   components: { NavBar, SideBar },
 };
