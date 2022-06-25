@@ -5,7 +5,7 @@
     </div>
 
     <div class="history-chart">
-      <canvas></canvas>
+      <Pie />
     </div>
 
     <LoaderVue v-if="loading" />
@@ -15,36 +15,85 @@
     </p>
 
     <section v-else>
-      <HistoryTable :records="records" />
+      <HistoryTable :records="items" />
+      <paginate
+        v-model="page"
+        :page-count="pageCount"
+        :click-handler="pageChangeHandler"
+        :prev-text="'Назад'"
+        :next-text="'Вперед'"
+        :container-class="'pagination'"
+        :page-class="'waves-effect'"
+      />
     </section>
   </div>
 </template>
 
 <script>
 import HistoryTable from "@/components/App/HistoryTable.vue";
+import Paginate from "vuejs-paginate-next";
+import paginationMixin from "@/mixins/pagination.mixin.js";
+import Pie from "@/components/App/Pie.vue";
 export default {
+  components: {
+    paginate: Paginate,
+    HistoryTable,
+    Pie,
+  },
   name: "history-page",
+  mixins: [paginationMixin],
   data: () => ({
     loading: true,
     records: [],
-    categories: [],
   }),
   async mounted() {
-    // this.records = await this.$store.dispatch("fetchRecords");
-    const records = await this.$store.dispatch("fetchRecords");
-    this.categories = await this.$store.dispatch("fetchCategories");
-
-    this.records = records.map((record) => {
-      return {
-        ...record,
-        categoryName: this.categories.find((c) => c.id === record.categoryId)
-          .title,
-        typeClass: record.type === "income" ? "green" : "red",
-        typeText: record.type === "income" ? "Доход" : "Расход",
-      };
-    });
+    this.records = await this.$store.dispatch("fetchRecords");
+    // const records = await this.$store.dispatch("fetchRecords");
+    const categories = await this.$store.dispatch("fetchCategories");
+    this.setup(categories);
     this.loading = false;
   },
-  components: { HistoryTable },
+
+  methods: {
+    setup(categories) {
+      this.setupPagination(
+        this.records.map((record) => {
+          return {
+            ...record,
+            categoryName: categories.find((c) => c.id === record.categoryId)
+              .title,
+            typeClass: record.type === "income" ? "green" : "red",
+            typeText: record.type === "income" ? "Доход" : "Расход",
+          };
+        })
+      );
+      // this.renderChart({
+      //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      //   datasets: [
+      //     {
+      //       label: "# of Votes",
+      //       data: [12, 19, 3, 5, 2, 3],
+      //       backgroundColor: [
+      //         "rgba(255, 99, 132, 0.2)",
+      //         "rgba(54, 162, 235, 0.2)",
+      //         "rgba(255, 206, 86, 0.2)",
+      //         "rgba(75, 192, 192, 0.2)",
+      //         "rgba(153, 102, 255, 0.2)",
+      //         "rgba(255, 159, 64, 0.2)",
+      //       ],
+      //       borderColor: [
+      //         "rgba(255, 99, 132, 1)",
+      //         "rgba(54, 162, 235, 1)",
+      //         "rgba(255, 206, 86, 1)",
+      //         "rgba(75, 192, 192, 1)",
+      //         "rgba(153, 102, 255, 1)",
+      //         "rgba(255, 159, 64, 1)",
+      //       ],
+      //       borderWidth: 1,
+      //     },
+      //   ],
+      // });
+    },
+  },
 };
 </script>
