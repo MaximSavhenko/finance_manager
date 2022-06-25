@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="submitHandler">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{ localize('HomeBookkeeping') }}</span>
       <div class="input-field">
         <input
           id="email"
@@ -53,6 +53,9 @@
 import useVuelidate from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
 import messages from '@/utils/messages'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
+import { mapGetters } from 'vuex'
 export default {
   setup() {
     return { v$: useVuelidate() }
@@ -70,6 +73,9 @@ export default {
     if (messages[this.$route.query.message]) {
       this.$message(messages[this.$route.query.message])
     }
+  },
+  computed: {
+    ...mapGetters(['info']),
   },
   methods: {
     async submitHandler() {
@@ -107,6 +113,16 @@ export default {
           this.password.length
         )
       }
+    },
+    localize(key) {
+      console.log(this.info)
+
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

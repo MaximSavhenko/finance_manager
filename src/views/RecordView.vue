@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Новая запись</h3>
+      <h3>{{ localize('NewRecord') }}</h3>
     </div>
 
     <LoaderVue v-if="loading" />
 
     <p class="center" v-else-if="!categories.length">
-      Категорий пока нет.
-      <router-link to="/categories">Добавить новую категорию</router-link>
+      {{ localize('NoCategory') }}
+      <router-link to="/categories">{{ localize('AddNewCat') }}</router-link>
     </p>
 
     <form class="form" v-else @submit.prevent="submitHandler">
@@ -18,7 +18,7 @@
             {{ opt.title }}
           </option>
         </select>
-        <label>Выберите категорию</label>
+        <label>{{ localize('SelectCategory') }}</label>
       </div>
 
       <p>
@@ -30,7 +30,7 @@
             value="income"
             v-model="type"
           />
-          <span>Доход</span>
+          <span>{{ localize('Income') }}</span>
         </label>
       </p>
 
@@ -43,7 +43,7 @@
             value="outcome"
             v-model="type"
           />
-          <span>Расход</span>
+          <span>{{ localize('Outcome') }}</span>
         </label>
       </p>
 
@@ -54,7 +54,7 @@
           v-model.number="amount"
           :class="{ invalid: v$.amount.$error }"
         />
-        <label for="amount">Сумма</label>
+        <label for="amount">{{ localize('Amount') }}</label>
         <span
           class="helper-text invalid"
           v-for="(error, index) of v$.amount.$errors"
@@ -70,7 +70,7 @@
           v-model="description"
           :class="{ invalid: v$.description.$error }"
         />
-        <label for="description">Описание</label>
+        <label for="description">{{ localize('Description') }}</label>
         <span
           class="helper-text invalid"
           v-for="(error, index) of v$.description.$errors"
@@ -80,7 +80,7 @@
       </div>
 
       <button class="btn waves-effect waves-light" type="submit">
-        Создать
+        {{ localize('Create') }}
         <i class="material-icons right">send</i>
       </button>
     </form>
@@ -91,6 +91,8 @@
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
 import { mapGetters } from 'vuex'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
 export default {
   setup() {
     return { v$: useVuelidate() }
@@ -148,7 +150,7 @@ export default {
               ? this.info.bill + this.amount
               : this.info.bill - this.amount
           await this.$store.dispatch('updateInfo', { bill })
-          this.$message('Запись успешно создана')
+          this.$message(this.localize('EntryCreatedSuccessfully'))
           this.v$.$reset()
           this.amount = 1
           this.description = ''
@@ -157,19 +159,29 @@ export default {
         }
       } else {
         this.$message(
-          `Недостаточно средств на счете (${this.amount - this.info.bill})`
+          this.localize('InsufficientFunds') +
+            ' ' +
+            (this.amount - this.info.bill)
         )
       }
     },
     printErrorDescription($name) {
       if ($name === 'required') {
-        return 'Введите описание'
+        return this.localize('EnterADescription')
       }
     },
     printErrorAmount($name, $param) {
       if ($name === 'minValue') {
-        return 'Минимальная величина ' + $param.min
+        return this.localize('MinimumValue') + $param.min
       }
+    },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
   unmounted() {

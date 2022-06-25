@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Редактировать</h4>
+        <h4>{{ localize('Edit') }}</h4>
       </div>
 
       <form @submit.prevent="submitHandler">
@@ -16,7 +16,7 @@
               {{ options.title }}
             </option>
           </select>
-          <label>Выберите категорию</label>
+          <label>{{ localize('SelectCategory') }}</label>
         </div>
 
         <div class="input-field">
@@ -26,7 +26,7 @@
             v-model="name"
             :class="{ invalid: v$.name.$error }"
           />
-          <label for="name">Название</label>
+          <label for="name">{{ localize('Title') }}</label>
           <span
             class="helper-text invalid"
             v-for="(error, index) of v$.name.$errors"
@@ -42,7 +42,7 @@
             v-model.number="limit"
             :class="{ invalid: v$.limit.$error }"
           />
-          <label for="limit">Лимит</label>
+          <label for="limit">{{ localize('Limit') }}</label>
           <span
             class="helper-text invalid"
             v-for="(error, index) of v$.limit.$errors"
@@ -52,7 +52,7 @@
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
-          Обновить
+          {{ localize('UpdateForm') }}
           <i class="material-icons right">send</i>
         </button>
       </form>
@@ -63,6 +63,9 @@
 <script>
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
+import { mapGetters } from 'vuex'
 export default {
   setup() {
     return { v$: useVuelidate() }
@@ -87,12 +90,14 @@ export default {
     window.M.updateTextFields()
     this.select = window.M.FormSelect.init(this.$refs.select)
   },
-
   created() {
     const { id, title, limit } = this.categories[0]
     this.current = id
     this.name = title
     this.limit = limit
+  },
+  computed: {
+    ...mapGetters(['info']),
   },
   methods: {
     async submitHandler() {
@@ -106,7 +111,7 @@ export default {
         }
         await this.$store.dispatch('updateCategory', categoryData)
 
-        this.$message('Категория успешно обновлена')
+        this.$message(this.localize('CategoryUpdated'))
         this.$emit('updated', categoryData)
       } catch (e) {
         console.log(e)
@@ -114,13 +119,21 @@ export default {
     },
     printErrorName($name) {
       if ($name === 'required') {
-        return 'Введите название категории'
+        return this.localize('EnterCategoryName')
       }
     },
     printErrorLimit($name, $param) {
       if ($name === 'minValue') {
-        return 'Минимальная величина ' + $param.min
+        return this.localize('MinimumValue') + $param.min
       }
+    },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
   unmounted() {

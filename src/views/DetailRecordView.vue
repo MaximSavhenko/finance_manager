@@ -3,9 +3,13 @@
     <LoaderVue v-if="loading" />
     <div v-else-if="record">
       <div class="breadcrumb-wrap">
-        <router-link to="/history" class="breadcrumb">История</router-link>
+        <router-link to="/history" class="breadcrumb">{{
+          localize('History')
+        }}</router-link>
         <a @click.prevent class="breadcrumb">
-          {{ record.type === 'income' ? 'Доход' : 'Расход' }}
+          {{
+            record.type === 'income' ? localize('Outcome') : localize('Income')
+          }}
         </a>
       </div>
       <div class="row">
@@ -18,20 +22,26 @@
             }"
           >
             <div class="card-content white-text">
-              <p>Описание: {{ record.description }}</p>
-              <p>Сумма: {{ baseFormat(record.amount) }}</p>
-              <p>Категория: {{ record.categoryName }}</p>
+              <p>{{ localize('Description') }}: {{ record.description }}</p>
+              <p>{{ localize('Amount') }}: {{ baseFormat(record.amount) }}</p>
+              <p>{{ localize('Category') }}: {{ record.categoryName }}</p>
               <small>{{ dateFilter(record.date) }}</small>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <p class="center" v-else>Запись с id={{ $route.params.id }} не найдена</p>
+    <p class="center" v-else>
+      {{ localize('RecordingFrom') }} id={{ $route.params.id }}
+      {{ localize('NotFound') }}
+    </p>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
 export default {
   name: 'detail-record',
   data: () => ({
@@ -72,8 +82,21 @@ export default {
         options.second = '2-digit'
       }
 
-      return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
+      return new Intl.DateTimeFormat(this.info.locale, options).format(
+        new Date(value)
+      )
     },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
+    },
+  },
+  computed: {
+    ...mapGetters(['info']),
   },
 }
 </script>

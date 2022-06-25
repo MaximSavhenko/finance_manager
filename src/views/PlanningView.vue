@@ -1,19 +1,19 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Планирование</h3>
+      <h3>{{ localize('Planning') }}</h3>
       <h4>{{ baseFormat }}</h4>
     </div>
     <LoaderVue v-if="loading" />
     <p class="center" v-else-if="!categories.length">
-      Категорий пока нет.
-      <router-link to="/categories">Добавить новую категорию</router-link>
+      {{ localize('NoCategory') }}
+      <router-link to="/categories">{{ localize('AddCat') }}</router-link>
     </p>
     <section v-else>
       <div v-for="cat of categories" :key="cat.id">
         <p>
           <strong>{{ cat.title }}:</strong>
-          {{ baseFormatDashboard(cat.spend) }} из
+          {{ baseFormatDashboard(cat.spend) }} {{ localize('Of') }}
           {{ baseFormatDashboard(cat.limit) }}
         </p>
         <div class="progress" v-tooltip="cat.tooltip">
@@ -30,6 +30,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
 export default {
   name: 'planning-page',
   data: () => ({
@@ -63,7 +65,7 @@ export default {
         percent < 60 ? 'green' : percent < 100 ? 'yellow' : 'red'
       const tooltipValue = cat.limit - spend
       const tooltip = `${
-        tooltipValue < 0 ? 'Превышение на' : 'Осталось'
+        tooltipValue < 0 ? this.localize('ExcessOn') : this.localize('Left')
       } ${this.baseFormatDashboard(Math.abs(tooltipValue))}`
       return {
         ...cat,
@@ -82,6 +84,14 @@ export default {
         style: 'currency',
         currency: 'UAH',
       }).format(value)
+    },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

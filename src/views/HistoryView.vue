@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>История записей</h3>
+      <h3>{{ localize('RecordHistory') }}</h3>
     </div>
 
     <div class="history-chart">
@@ -11,7 +11,8 @@
     <LoaderVue v-if="loading" />
 
     <p class="center" v-else-if="!records.length">
-      Записей пока нет. <router-link to="/record">Добавте первую</router-link>
+      {{ localize('NoEntriesYet') }}
+      <router-link to="/record">{{ localize('AddFirst') }}</router-link>
     </p>
 
     <section v-else>
@@ -20,8 +21,8 @@
         v-model="page"
         :page-count="pageCount"
         :click-handler="pageChangeHandler"
-        :prev-text="'Назад'"
-        :next-text="'Вперед'"
+        :prev-text="this.localize('Back')"
+        :next-text="this.localize('Next')"
         :container-class="'pagination'"
         :page-class="'waves-effect'"
       />
@@ -34,6 +35,9 @@ import HistoryTable from '@/components/App/HistoryTable.vue'
 import Paginate from 'vuejs-paginate-next'
 import paginationMixin from '@/mixins/pagination.mixin.js'
 import Pie from '@/components/App/Pie.vue'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     paginate: Paginate,
@@ -48,12 +52,13 @@ export default {
   }),
   async mounted() {
     this.records = await this.$store.dispatch('fetchRecords')
-    // const records = await this.$store.dispatch("fetchRecords");
     const categories = await this.$store.dispatch('fetchCategories')
     this.setup(categories)
     this.loading = false
   },
-
+  computed: {
+    ...mapGetters(['info']),
+  },
   methods: {
     setup(categories) {
       this.setupPagination(
@@ -63,36 +68,21 @@ export default {
             categoryName: categories.find((c) => c.id === record.categoryId)
               .title,
             typeClass: record.type === 'income' ? 'green' : 'red',
-            typeText: record.type === 'income' ? 'Доход' : 'Расход',
+            typeText:
+              record.type === 'income'
+                ? this.localize('Income')
+                : this.localize('Outcome'),
           }
         })
       )
-      // this.renderChart({
-      //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-      //   datasets: [
-      //     {
-      //       label: "# of Votes",
-      //       data: [12, 19, 3, 5, 2, 3],
-      //       backgroundColor: [
-      //         "rgba(255, 99, 132, 0.2)",
-      //         "rgba(54, 162, 235, 0.2)",
-      //         "rgba(255, 206, 86, 0.2)",
-      //         "rgba(75, 192, 192, 0.2)",
-      //         "rgba(153, 102, 255, 0.2)",
-      //         "rgba(255, 159, 64, 0.2)",
-      //       ],
-      //       borderColor: [
-      //         "rgba(255, 99, 132, 1)",
-      //         "rgba(54, 162, 235, 1)",
-      //         "rgba(255, 206, 86, 1)",
-      //         "rgba(75, 192, 192, 1)",
-      //         "rgba(153, 102, 255, 1)",
-      //         "rgba(255, 159, 64, 1)",
-      //       ],
-      //       borderWidth: 1,
-      //     },
-      //   ],
-      // });
+    },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     date: new Date(),
@@ -79,10 +80,13 @@ export default {
         options.second = '2-digit'
       }
 
-      return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
+      return new Intl.DateTimeFormat(this.info.locale, options).format(
+        new Date(value)
+      )
     },
   },
   computed: {
+    ...mapGetters(['info']),
     name() {
       return this.$store.getters.info.name
     },

@@ -3,11 +3,11 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Сумма</th>
-        <th>Дата</th>
-        <th>Категория</th>
-        <th>Тип</th>
-        <th>Открыть</th>
+        <th>{{ localize('Amount') }}</th>
+        <th>{{ localize('Date') }}</th>
+        <th>{{ localize('Category') }}</th>
+        <th>{{ localize('Type') }}</th>
+        <th>{{ localize('View') }}</th>
       </tr>
     </thead>
 
@@ -19,12 +19,12 @@
         <td>{{ record.categoryName }}</td>
         <td>
           <span class="white-text badge" :class="[record.typeClass]">{{
-            record.typeText
+            localize(record.typeText)
           }}</span>
         </td>
         <td>
           <button
-            v-tooltip="'Посмотреть запись'"
+            v-tooltip="localize('ViewRecord')"
             class="btn-small btn"
             @click="$router.push('/detail-record/' + record.id)"
           >
@@ -37,6 +37,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
 export default {
   props: {
     records: { type: Array, required: true },
@@ -62,8 +65,21 @@ export default {
         options.second = '2-digit'
       }
 
-      return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
+      return new Intl.DateTimeFormat(this.info.locale, options).format(
+        new Date(value)
+      )
     },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
+    },
+  },
+  computed: {
+    ...mapGetters(['info']),
   },
 }
 </script>

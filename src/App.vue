@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{
+      content ? `${content} | financial book` : `financial book`
+    }}</template>
+  </metainfo>
   <component :is="layout">
     <router-view />
   </component>

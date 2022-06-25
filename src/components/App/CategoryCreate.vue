@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Создать</h4>
+        <h4>{{ localize('Create') }}</h4>
       </div>
 
       <form @submit.prevent="submitHandler">
@@ -13,7 +13,7 @@
             v-model="title"
             :class="{ invalid: v$.title.$error }"
           />
-          <label for="name">Название</label>
+          <label for="name">{{ localize('Title') }}</label>
           <span
             class="helper-text invalid"
             v-for="(error, index) of v$.title.$errors"
@@ -29,7 +29,7 @@
             v-model.number="limit"
             :class="{ invalid: v$.limit.$error }"
           />
-          <label for="limit">Лимит</label>
+          <label for="limit">{{ localize('Limit') }}</label>
           <span
             class="helper-text invalid"
             v-for="(error, index) of v$.limit.$errors"
@@ -39,7 +39,7 @@
         </div>
 
         <button class="btn waves-effect waves-light" type="submit">
-          Создать
+          {{ localize('Create') }}
           <i class="material-icons right">send</i>
         </button>
       </form>
@@ -50,6 +50,9 @@
 <script>
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
+import { mapGetters } from 'vuex'
+import ru from '@/locales/ru.json'
+import en from '@/locales/en.json'
 export default {
   setup() {
     return { v$: useVuelidate() }
@@ -65,6 +68,9 @@ export default {
   mounted() {
     window.M.updateTextFields()
   },
+  computed: {
+    ...mapGetters(['info']),
+  },
   methods: {
     async submitHandler() {
       this.v$.$touch()
@@ -79,7 +85,7 @@ export default {
         this.title = ''
         this.limit = 100
         this.v$.$reset()
-        this.$message('Категория была создана')
+        this.$message(this.localize('CategoryCreated'))
         this.$emit('created', category)
       } catch (e) {
         console.log(e)
@@ -87,13 +93,21 @@ export default {
     },
     printErrorTitle($name) {
       if ($name === 'required') {
-        return 'Введите название категории'
+        return this.localize('EnterCategoryName')
       }
     },
     printErrorLimit($name, $param) {
       if ($name === 'minValue') {
-        return 'Минимальная величина ' + $param.min
+        return this.localize('MinimumValue') + $param.min
       }
+    },
+    localize(key) {
+      const locales = {
+        'ru-RU': ru,
+        'en-US': en,
+      }
+      const locale = this.info.locale || 'ru-RU'
+      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

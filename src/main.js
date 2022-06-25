@@ -6,6 +6,7 @@ import messagePlagin from '@/utils/message.plagin'
 import LoaderVue from '@/components/App/LoaderVue.vue'
 import tooltipDerective from '@/derectives/tooltip.derective'
 import Paginate from 'vuejs-paginate-next'
+import { createMetaManager } from 'vue-meta'
 import './registerServiceWorker'
 import 'materialize-css/dist/js/materialize.min'
 
@@ -32,6 +33,7 @@ firebase.auth().onAuthStateChanged(() => {
       .use(messagePlagin)
       .component('LoaderVue', LoaderVue)
       .use(Paginate)
+      .use(createMetaManager())
       .directive('tooltip', tooltipDerective)
       .mount('#app')
   }
