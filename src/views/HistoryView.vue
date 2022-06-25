@@ -30,28 +30,28 @@
 </template>
 
 <script>
-import HistoryTable from "@/components/App/HistoryTable.vue";
-import Paginate from "vuejs-paginate-next";
-import paginationMixin from "@/mixins/pagination.mixin.js";
-import Pie from "@/components/App/Pie.vue";
+import HistoryTable from '@/components/App/HistoryTable.vue'
+import Paginate from 'vuejs-paginate-next'
+import paginationMixin from '@/mixins/pagination.mixin.js'
+import Pie from '@/components/App/Pie.vue'
 export default {
   components: {
     paginate: Paginate,
     HistoryTable,
     Pie,
   },
-  name: "history-page",
+  name: 'history-page',
   mixins: [paginationMixin],
   data: () => ({
     loading: true,
     records: [],
   }),
   async mounted() {
-    this.records = await this.$store.dispatch("fetchRecords");
+    this.records = await this.$store.dispatch('fetchRecords')
     // const records = await this.$store.dispatch("fetchRecords");
-    const categories = await this.$store.dispatch("fetchCategories");
-    this.setup(categories);
-    this.loading = false;
+    const categories = await this.$store.dispatch('fetchCategories')
+    this.setup(categories)
+    this.loading = false
   },
 
   methods: {
@@ -62,11 +62,11 @@ export default {
             ...record,
             categoryName: categories.find((c) => c.id === record.categoryId)
               .title,
-            typeClass: record.type === "income" ? "green" : "red",
-            typeText: record.type === "income" ? "Доход" : "Расход",
-          };
+            typeClass: record.type === 'income' ? 'green' : 'red',
+            typeText: record.type === 'income' ? 'Доход' : 'Расход',
+          }
         })
-      );
+      )
       // this.renderChart({
       //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
       //   datasets: [
@@ -95,5 +95,5 @@ export default {
       // });
     },
   },
-};
+}
 </script>

@@ -5,7 +5,7 @@
         <a href="#" @click.prevent="$emit('open:navBar')">
           <i class="material-icons black-text">dehaze</i>
         </a>
-        <span class="black-text">{{ dateFilter("datetime") }} </span>
+        <span class="black-text">{{ dateFilter('datetime') }} </span>
       </div>
 
       <ul class="right hide-on-small-and-down">
@@ -48,44 +48,44 @@ export default {
   }),
   mounted() {
     this.interval = setInterval(() => {
-      this.date = new Date();
-    }, 1000);
+      this.date = new Date()
+    }, 1000)
     // eslint-disable-next-line
     this.dropdown = M.Dropdown.init(this.$refs.dropdown, {
       constrainWidth: false,
-    });
+    })
   },
   beforeUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.interval)
     if (this.dropdown && this.dropdown.destroy) {
-      this.dropdown.destroy();
+      this.dropdown.destroy()
     }
   },
   methods: {
     async logout() {
-      await this.$store.dispatch("logout");
-      this.$router.push("/login?message=logout");
+      await this.$store.dispatch('logout')
+      this.$router.push('/login?message=logout')
     },
-    dateFilter(value, format = "date") {
-      value = this.date;
-      const options = {};
+    dateFilter(value, format = 'date') {
+      value = this.date
+      const options = {}
 
-      if (format.includes("date")) {
-        options.day = "2-digit";
-        options.month = "long";
-        options.year = "numeric";
-        options.hour = "2-digit";
-        options.minute = "2-digit";
-        options.second = "2-digit";
+      if (format.includes('date')) {
+        options.day = '2-digit'
+        options.month = 'long'
+        options.year = 'numeric'
+        options.hour = '2-digit'
+        options.minute = '2-digit'
+        options.second = '2-digit'
       }
 
-      return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
+      return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
     },
   },
   computed: {
     name() {
-      return this.$store.getters.info.name;
+      return this.$store.getters.info.name
     },
   },
-};
+}
 </script>

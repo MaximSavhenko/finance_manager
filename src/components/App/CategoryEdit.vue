@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { required, minValue } from "@vuelidate/validators";
+import useVuelidate from '@vuelidate/core'
+import { required, minValue } from '@vuelidate/validators'
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    return { v$: useVuelidate() }
   },
   props: {
     categories: {
@@ -75,7 +75,7 @@ export default {
   },
   data: () => ({
     select: null,
-    name: "",
+    name: '',
     limit: 100,
     current: null,
   }),
@@ -84,56 +84,56 @@ export default {
     limit: { minValue: minValue(100) },
   },
   mounted() {
-    window.M.updateTextFields();
-    this.select = window.M.FormSelect.init(this.$refs.select);
+    window.M.updateTextFields()
+    this.select = window.M.FormSelect.init(this.$refs.select)
   },
 
   created() {
-    const { id, title, limit } = this.categories[0];
-    this.current = id;
-    this.name = title;
-    this.limit = limit;
+    const { id, title, limit } = this.categories[0]
+    this.current = id
+    this.name = title
+    this.limit = limit
   },
   methods: {
     async submitHandler() {
-      this.v$.$touch();
-      if (this.v$.$error) return;
+      this.v$.$touch()
+      if (this.v$.$error) return
       try {
         const categoryData = {
           id: this.current,
           title: this.name,
           limit: this.limit,
-        };
-        await this.$store.dispatch("updateCategory", categoryData);
+        }
+        await this.$store.dispatch('updateCategory', categoryData)
 
-        this.$message("Категория успешно обновлена");
-        this.$emit("updated", categoryData);
+        this.$message('Категория успешно обновлена')
+        this.$emit('updated', categoryData)
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     printErrorName($name) {
-      if ($name === "required") {
-        return "Введите название категории";
+      if ($name === 'required') {
+        return 'Введите название категории'
       }
     },
     printErrorLimit($name, $param) {
-      if ($name === "minValue") {
-        return "Минимальная величина " + $param.min;
+      if ($name === 'minValue') {
+        return 'Минимальная величина ' + $param.min
       }
     },
   },
   unmounted() {
     if (this.select && this.select.destroy) {
-      this.select.destroy();
+      this.select.destroy()
     }
   },
   watch: {
     current(catId) {
-      const { title, limit } = this.categories.find((c) => c.id === catId);
-      this.name = title;
-      this.limit = limit;
+      const { title, limit } = this.categories.find((c) => c.id === catId)
+      this.name = title
+      this.limit = limit
     },
   },
-};
+}
 </script>

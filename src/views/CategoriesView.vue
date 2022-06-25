@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import CategoryCreate from "@/components/App/CategoryCreate.vue";
-import CategoryEdit from "@/components/App/CategoryEdit.vue";
+import CategoryCreate from '@/components/App/CategoryCreate.vue'
+import CategoryEdit from '@/components/App/CategoryEdit.vue'
 
 export default {
-  name: "categories-page",
+  name: 'categories-page',
   components: { CategoryCreate, CategoryEdit },
   data: () => ({
     categories: [],
@@ -32,19 +32,19 @@ export default {
     updateCount: 0,
   }),
   async mounted() {
-    this.categories = await this.$store.dispatch("fetchCategories");
-    this.loading = false;
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.loading = false
   },
   methods: {
     addNewCategory(category) {
-      this.categories.push(category);
+      this.categories.push(category)
     },
     updateCategories(category) {
-      const idx = this.categories.findIndex((c) => c.id === category.id);
-      this.categories[idx].title = category.title;
-      this.categories[idx].limit = category.limit;
-      this.updateCount++;
+      const idx = this.categories.findIndex((c) => c.id === category.id)
+      this.categories[idx].title = category.title
+      this.categories[idx].limit = category.limit
+      this.updateCount++
     },
   },
-};
+}
 </script>

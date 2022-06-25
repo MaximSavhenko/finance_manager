@@ -1,8 +1,8 @@
-import { createStore } from "vuex";
-import auth from "./auth";
-import info from "./info";
-import category from "./category";
-import record from "./record";
+import { createStore } from 'vuex'
+import auth from './auth'
+import info from './info'
+import category from './category'
+import record from './record'
 
 export default createStore({
   state: {
@@ -10,10 +10,10 @@ export default createStore({
   },
   mutations: {
     setError(state, error) {
-      state.error = error;
+      state.error = error
     },
     clearError(state) {
-      state.error = null;
+      state.error = null
     },
   },
   getters: {
@@ -24,9 +24,9 @@ export default createStore({
       // const key = process.env.VUE_APP_FIXER;
 
       const res = await fetch(
-        "https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5"
-      );
-      return await res.json();
+        'https://api.privatbank.ua/p24api/pubinfo?exchange&json&coursid=5'
+      )
+      return await res.json()
     },
   },
   modules: {
@@ -35,4 +35,4 @@ export default createStore({
     category,
     record,
   },
-});
+})

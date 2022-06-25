@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { Pie } from "vue-chartjs";
+import { Pie } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   Title,
@@ -20,17 +20,17 @@ import {
   Legend,
   ArcElement,
   CategoryScale,
-} from "chart.js";
+} from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 export default {
-  name: "PieChart",
+  name: 'PieChart',
   components: { Pie },
   props: {
     chartId: {
       type: String,
-      default: "pie-chart",
+      default: 'pie-chart',
     },
     width: {
       type: Number,
@@ -41,7 +41,7 @@ export default {
       default: 400,
     },
     cssClasses: {
-      default: "",
+      default: '',
       type: String,
     },
     styles: {
@@ -58,11 +58,11 @@ export default {
       title: [],
       categories: [],
       records: [],
-    };
+    }
   },
   async mounted() {
-    this.categories = await this.$store.dispatch("fetchCategories");
-    this.records = await this.$store.dispatch("fetchRecords");
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.records = await this.$store.dispatch('fetchRecords')
   },
 
   computed: {
@@ -72,27 +72,27 @@ export default {
 
         datasets: [
           {
-            label: "Расходы по категориям",
-            backgroundColor: ["#41B883", "#E46651", "#00D8FF", "#DD1B16"],
+            label: 'Расходы по категориям',
+            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
             data: this.categories.map((c) => {
               return this.records.reduce((total, r) => {
-                if (r.categoryId === c.id && r.type === "outcome") {
-                  total += +r.amount;
+                if (r.categoryId === c.id && r.type === 'outcome') {
+                  total += +r.amount
                 }
-                return total;
-              }, 0);
+                return total
+              }, 0)
             }),
           },
         ],
-      };
+      }
     },
     chartOptions() {
       return {
         responsive: true,
         maintainAspectRatio: false,
-      };
+      }
     },
   },
   methods: {},
-};
+}
 </script>

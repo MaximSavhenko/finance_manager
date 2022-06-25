@@ -71,17 +71,17 @@
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { email, required, minLength } from "@vuelidate/validators";
+import useVuelidate from '@vuelidate/core'
+import { email, required, minLength } from '@vuelidate/validators'
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    return { v$: useVuelidate() }
   },
-  name: "Register-page",
+  name: 'Register-page',
   data: () => ({
-    email: "",
-    password: "",
-    name: "",
+    email: '',
+    password: '',
+    name: '',
     agree: false,
   }),
   validations: {
@@ -92,47 +92,47 @@ export default {
   },
   methods: {
     async submitHandler() {
-      this.v$.$touch();
-      if (this.v$.$error) return;
+      this.v$.$touch()
+      if (this.v$.$error) return
       const formDate = {
         email: this.email,
         password: this.password,
         name: this.name,
-      };
+      }
       try {
-        await this.$store.dispatch("register", formDate);
-        this.$router.push("/");
+        await this.$store.dispatch('register', formDate)
+        this.$router.push('/')
       } catch (e) {
         // eslint-disable-next-line
       }
     },
     printErrorEmail($name, $param) {
-      if ($name === "required") {
-        return "Поле не должно быть пустым";
-      } else if ($name === "minLength") {
-        return "Минимальная длина должна быть " + $param.min + " символa";
-      } else if ($name === "email") {
-        return "Введите корректный Email";
+      if ($name === 'required') {
+        return 'Поле не должно быть пустым'
+      } else if ($name === 'minLength') {
+        return 'Минимальная длина должна быть ' + $param.min + ' символa'
+      } else if ($name === 'email') {
+        return 'Введите корректный Email'
       }
     },
     printErrorPassword($name, $param) {
-      if ($name === "required") {
-        return "Введите пароль";
-      } else if ($name === "minLength") {
+      if ($name === 'required') {
+        return 'Введите пароль'
+      } else if ($name === 'minLength') {
         return (
-          "Пароль должен быть длинной " +
+          'Пароль должен быть длинной ' +
           $param.min +
-          " символов." +
-          "Сейчас он " +
+          ' символов.' +
+          'Сейчас он ' +
           this.password.length
-        );
+        )
       }
     },
     printErrorName($name) {
-      if ($name === "required") {
-        return "Введите Ваше имя";
+      if ($name === 'required') {
+        return 'Введите Ваше имя'
       }
     },
   },
-};
+}
 </script>

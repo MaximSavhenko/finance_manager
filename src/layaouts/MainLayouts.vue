@@ -24,32 +24,32 @@
 </template>
 
 <script>
-import NavBar from "@/components/App/NavBar.vue";
-import SideBar from "@/components/App/SideBar.vue";
-import messages from "@/utils/messages";
+import NavBar from '@/components/App/NavBar.vue'
+import SideBar from '@/components/App/SideBar.vue'
+import messages from '@/utils/messages'
 export default {
-  name: "main-layouts",
+  name: 'main-layouts',
   data: () => ({
     isOpen: true,
     loading: true,
   }),
   async mounted() {
     if (!Object.keys(this.$store.getters.info).length) {
-      await this.$store.dispatch("fetchInfo");
+      await this.$store.dispatch('fetchInfo')
     }
-    this.loading = false;
+    this.loading = false
   },
   computed: {
     error() {
-      return this.$store.getters.error;
+      return this.$store.getters.error
     },
   },
   watch: {
     error(fdError) {
-      console.log(fdError);
-      this.$error(messages[fdError.code] || "Что-то пошло не так");
+      console.log(fdError)
+      this.$error(messages[fdError.code] || 'Что-то пошло не так')
     },
   },
   components: { NavBar, SideBar },
-};
+}
 </script>

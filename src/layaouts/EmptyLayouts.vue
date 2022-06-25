@@ -5,18 +5,18 @@
 </template>
 
 <script>
-import messages from "@/utils/messages";
+import messages from '@/utils/messages'
 export default {
   computed: {
     error() {
-      return this.$store.getters.error;
+      return this.$store.getters.error
     },
   },
   watch: {
     error(fdError) {
-      console.log(fdError);
-      this.$error(messages[fdError.code] || "Что-то пошло не так");
+      console.log(fdError)
+      this.$error(messages[fdError.code] || 'Что-то пошло не так')
     },
   },
-};
+}
 </script>

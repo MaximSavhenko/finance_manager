@@ -17,29 +17,29 @@
 
 <script>
 export default {
-  props: ["rates"],
+  props: ['rates'],
   data: () => ({}),
   computed: {
     baseFormat() {
-      const bill = this.$store.getters.info.bill;
-      return new Intl.NumberFormat("ru-RU", {
-        style: "currency",
-        currency: "UAH",
-      }).format(bill);
+      const bill = this.$store.getters.info.bill
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'UAH',
+      }).format(bill)
     },
     base() {
-      return this.$store.getters.info.bill;
+      return this.$store.getters.info.bill
     },
   },
   methods: {
     getCurrency(value) {
-      const currency = this.base / value.buy;
-      const currencyFloor = Math.floor(currency);
-      return new Intl.NumberFormat("ru-RU", {
-        style: "currency",
+      const currency = this.base / value.buy
+      const currencyFloor = Math.floor(currency)
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
         currency: value.ccy,
-      }).format(currencyFloor);
+      }).format(currencyFloor)
     },
   },
-};
+}
 </script>

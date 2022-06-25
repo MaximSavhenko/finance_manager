@@ -5,7 +5,7 @@
       <div class="breadcrumb-wrap">
         <router-link to="/history" class="breadcrumb">История</router-link>
         <a @click.prevent class="breadcrumb">
-          {{ record.type === "income" ? "Доход" : "Расход" }}
+          {{ record.type === 'income' ? 'Доход' : 'Расход' }}
         </a>
       </div>
       <div class="row">
@@ -33,47 +33,47 @@
 
 <script>
 export default {
-  name: "detail-record",
+  name: 'detail-record',
   data: () => ({
     record: null,
     category: [],
     loading: true,
   }),
   async mounted() {
-    const id = this.$route.params.id;
-    const record = await this.$store.dispatch("fetchRecordById", id);
+    const id = this.$route.params.id
+    const record = await this.$store.dispatch('fetchRecordById', id)
     const category = await this.$store.dispatch(
-      "fetchCategoryById",
+      'fetchCategoryById',
       record.categoryId
-    );
+    )
     this.record = {
       ...record,
       categoryName: category.title,
-    };
+    }
 
-    this.loading = false;
+    this.loading = false
   },
   methods: {
     baseFormat(value) {
-      return new Intl.NumberFormat("ru-RU", {
-        style: "currency",
-        currency: "UAH",
-      }).format(value);
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'UAH',
+      }).format(value)
     },
-    dateFilter(value, format = "date") {
-      const options = {};
+    dateFilter(value, format = 'date') {
+      const options = {}
 
-      if (format.includes("date")) {
-        options.day = "2-digit";
-        options.month = "long";
-        options.year = "numeric";
-        options.hour = "2-digit";
-        options.minute = "2-digit";
-        options.second = "2-digit";
+      if (format.includes('date')) {
+        options.day = '2-digit'
+        options.month = 'long'
+        options.year = 'numeric'
+        options.hour = '2-digit'
+        options.minute = '2-digit'
+        options.second = '2-digit'
       }
 
-      return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
+      return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
     },
   },
-};
+}
 </script>

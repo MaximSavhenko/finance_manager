@@ -48,14 +48,14 @@
 </template>
 
 <script>
-import useVuelidate from "@vuelidate/core";
-import { required, minValue } from "@vuelidate/validators";
+import useVuelidate from '@vuelidate/core'
+import { required, minValue } from '@vuelidate/validators'
 export default {
   setup() {
-    return { v$: useVuelidate() };
+    return { v$: useVuelidate() }
   },
   data: () => ({
-    title: "",
+    title: '',
     limit: 100,
   }),
   validations: {
@@ -63,38 +63,38 @@ export default {
     limit: { minValue: minValue(100) },
   },
   mounted() {
-    window.M.updateTextFields();
+    window.M.updateTextFields()
   },
   methods: {
     async submitHandler() {
-      this.v$.$touch();
-      if (this.v$.$error) return;
+      this.v$.$touch()
+      if (this.v$.$error) return
       try {
-        const category = await this.$store.dispatch("createCategory", {
+        const category = await this.$store.dispatch('createCategory', {
           title: this.title,
           limit: this.limit,
-        });
-        console.log(category);
+        })
+        console.log(category)
 
-        this.title = "";
-        this.limit = 100;
-        this.v$.$reset();
-        this.$message("Категория была создана");
-        this.$emit("created", category);
+        this.title = ''
+        this.limit = 100
+        this.v$.$reset()
+        this.$message('Категория была создана')
+        this.$emit('created', category)
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     printErrorTitle($name) {
-      if ($name === "required") {
-        return "Введите название категории";
+      if ($name === 'required') {
+        return 'Введите название категории'
       }
     },
     printErrorLimit($name, $param) {
-      if ($name === "minValue") {
-        return "Минимальная величина " + $param.min;
+      if ($name === 'minValue') {
+        return 'Минимальная величина ' + $param.min
       }
     },
   },
-};
+}
 </script>

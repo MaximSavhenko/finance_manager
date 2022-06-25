@@ -29,60 +29,60 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "planning-page",
+  name: 'planning-page',
   data: () => ({
     loading: true,
     categories: [],
   }),
   computed: {
-    ...mapGetters(["info"]),
+    ...mapGetters(['info']),
     baseFormat() {
-      const bill = this.$store.getters.info.bill;
-      return new Intl.NumberFormat("ru-RU", {
-        style: "currency",
-        currency: "UAH",
-      }).format(bill);
+      const bill = this.$store.getters.info.bill
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'UAH',
+      }).format(bill)
     },
   },
   async mounted() {
-    const records = await this.$store.dispatch("fetchRecords");
-    const categories = await this.$store.dispatch("fetchCategories");
+    const records = await this.$store.dispatch('fetchRecords')
+    const categories = await this.$store.dispatch('fetchCategories')
     this.categories = categories.map((cat) => {
       const spend = records
         .filter((r) => r.categoryId === cat.id)
-        .filter((r) => r.type === "outcome")
+        .filter((r) => r.type === 'outcome')
         .reduce((total, record) => {
-          return (total += +record.amount);
-        }, 0);
+          return (total += +record.amount)
+        }, 0)
 
-      const percent = (100 * spend) / cat.limit;
-      const progressPercent = percent > 100 ? 100 : percent;
+      const percent = (100 * spend) / cat.limit
+      const progressPercent = percent > 100 ? 100 : percent
       const progressColor =
-        percent < 60 ? "green" : percent < 100 ? "yellow" : "red";
-      const tooltipValue = cat.limit - spend;
+        percent < 60 ? 'green' : percent < 100 ? 'yellow' : 'red'
+      const tooltipValue = cat.limit - spend
       const tooltip = `${
-        tooltipValue < 0 ? "Превышение на" : "Осталось"
-      } ${this.baseFormatDashboard(Math.abs(tooltipValue))}`;
+        tooltipValue < 0 ? 'Превышение на' : 'Осталось'
+      } ${this.baseFormatDashboard(Math.abs(tooltipValue))}`
       return {
         ...cat,
         progressPercent,
         progressColor,
         spend,
         tooltip,
-      };
-    });
+      }
+    })
 
-    this.loading = false;
+    this.loading = false
   },
   methods: {
     baseFormatDashboard(value) {
-      return new Intl.NumberFormat("ru-RU", {
-        style: "currency",
-        currency: "UAH",
-      }).format(value);
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'UAH',
+      }).format(value)
     },
   },
-};
+}
 </script>

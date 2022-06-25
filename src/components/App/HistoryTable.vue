@@ -45,25 +45,25 @@ export default {
   mounted() {},
   methods: {
     baseFormatTable(value) {
-      return new Intl.NumberFormat("ru-RU", {
-        style: "currency",
-        currency: "UAH",
-      }).format(value);
+      return new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'UAH',
+      }).format(value)
     },
-    dateFilter(value, format = "date") {
-      const options = {};
+    dateFilter(value, format = 'date') {
+      const options = {}
 
-      if (format.includes("date")) {
-        options.day = "2-digit";
-        options.month = "long";
-        options.year = "numeric";
-        options.hour = "2-digit";
-        options.minute = "2-digit";
-        options.second = "2-digit";
+      if (format.includes('date')) {
+        options.day = '2-digit'
+        options.month = 'long'
+        options.year = 'numeric'
+        options.hour = '2-digit'
+        options.minute = '2-digit'
+        options.second = '2-digit'
       }
 
-      return new Intl.DateTimeFormat("ru-RU", options).format(new Date(value));
+      return new Intl.DateTimeFormat('ru-RU', options).format(new Date(value))
     },
   },
-};
+}
 </script>

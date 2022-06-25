@@ -21,15 +21,15 @@
 
 <script>
 export default {
-  props: ["isOpen"],
+  props: ['isOpen'],
   data: () => ({
     links: [
-      { title: "Счет", url: "/" },
-      { title: "История", url: "/history" },
-      { title: "Планирование", url: "/planning" },
-      { title: "Новая запись", url: "/record" },
-      { title: "Категории", url: "/categories" },
+      { title: 'Счет', url: '/' },
+      { title: 'История', url: '/history' },
+      { title: 'Планирование', url: '/planning' },
+      { title: 'Новая запись', url: '/record' },
+      { title: 'Категории', url: '/categories' },
     ],
   }),
-};
+}
 </script>

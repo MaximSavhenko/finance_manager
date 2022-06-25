@@ -1,5 +1,5 @@
-import firebase from "firebase/compat/app";
-import "firebase/compat/database";
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/database'
 
 // import { getDatabase, ref, onValue } from "firebase/database";
 
@@ -9,38 +9,38 @@ export default {
   },
   mutations: {
     setInfo(state, info) {
-      state.info = info;
+      state.info = info
     },
     clearInfo(state) {
-      state.info = {};
+      state.info = {}
     },
   },
   actions: {
     async updateInfo({ commit, dispatch, getters }, toUpdate) {
       try {
-        const uid = await dispatch("getUid");
-        const updateData = { ...getters.info, ...toUpdate };
-        await firebase.database().ref(`/users/${uid}/info`).update(updateData);
-        commit("setInfo", updateData);
+        const uid = await dispatch('getUid')
+        const updateData = { ...getters.info, ...toUpdate }
+        await firebase.database().ref(`/users/${uid}/info`).update(updateData)
+        commit('setInfo', updateData)
       } catch (e) {
-        commit("setError", e);
-        throw e;
+        commit('setError', e)
+        throw e
       }
     },
     async fetchInfo({ dispatch, commit }) {
       try {
-        const uid = await dispatch("getUid");
+        const uid = await dispatch('getUid')
         const info = (
-          await firebase.database().ref(`/users/${uid}/info`).once("value")
-        ).val();
-        commit("setInfo", info);
+          await firebase.database().ref(`/users/${uid}/info`).once('value')
+        ).val()
+        commit('setInfo', info)
       } catch (e) {
-        commit("setError", e);
-        throw e;
+        commit('setError', e)
+        throw e
       }
     },
   },
   getters: {
     info: (s) => s.info,
   },
-};
+}

@@ -18,26 +18,26 @@
 </template>
 
 <script>
-import HomeBill from "@/components/App/HomeBill.vue";
-import HomeCurrency from "@/components/App/HomeCurrency.vue";
+import HomeBill from '@/components/App/HomeBill.vue'
+import HomeCurrency from '@/components/App/HomeCurrency.vue'
 
 export default {
   components: { HomeBill, HomeCurrency },
-  name: "HomeView",
+  name: 'HomeView',
   data: () => ({
     loading: true,
     currency: null,
   }),
   async mounted() {
-    this.currency = await this.$store.dispatch("fetchCurrency");
-    this.loading = false;
+    this.currency = await this.$store.dispatch('fetchCurrency')
+    this.loading = false
   },
   methods: {
     async refresh() {
-      this.loading = true;
-      this.currency = await this.$store.dispatch("fetchCurrency");
-      this.loading = false;
+      this.loading = true
+      this.currency = await this.$store.dispatch('fetchCurrency')
+      this.loading = false
     },
   },
-};
+}
 </script>
