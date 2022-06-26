@@ -70,6 +70,8 @@ export default {
       )
     },
     localize(key) {
+      console.log(this.records)
+
       const locales = {
         'ru-RU': ru,
         'en-US': en,

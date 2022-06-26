@@ -48,5 +48,7 @@
     "Edit": "Edit",
     "CategoryCreated": "Category has been created",
     "CategoryUpdated": "Category updated successfully",
-    "HomeBookkeeping": "Home bookkeeping"
+    "HomeBookkeeping": "Home bookkeeping",
+    "Auth": "",
+    "DetailRecord": "Details"
 }

@@ -44,10 +44,12 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import ru from '@/locales/ru.json'
 import en from '@/locales/en.json'
+import { useMeta } from 'vue-meta'
 
 export default {
   name: 'profile-page',
   setup() {
+    useMeta({ title: 'ProfileTitle' })
     return { v$: useVuelidate() }
   },
   data: () => ({

@@ -38,7 +38,11 @@ import Pie from '@/components/App/Pie.vue'
 import ru from '@/locales/ru.json'
 import en from '@/locales/en.json'
 import { mapGetters } from 'vuex'
+import { useMeta } from 'vue-meta'
 export default {
+  setup() {
+    useMeta({ title: 'History' })
+  },
   components: {
     paginate: Paginate,
     HistoryTable,
@@ -68,10 +72,7 @@ export default {
             categoryName: categories.find((c) => c.id === record.categoryId)
               .title,
             typeClass: record.type === 'income' ? 'green' : 'red',
-            typeText:
-              record.type === 'income'
-                ? this.localize('Income')
-                : this.localize('Outcome'),
+            typeText: record.type === 'income' ? 'Income' : 'Outcome',
           }
         })
       )

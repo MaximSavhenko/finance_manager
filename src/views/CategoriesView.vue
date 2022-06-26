@@ -25,8 +25,11 @@ import CategoryEdit from '@/components/App/CategoryEdit.vue'
 import { mapGetters } from 'vuex'
 import ru from '@/locales/ru.json'
 import en from '@/locales/en.json'
-
+import { useMeta } from 'vue-meta'
 export default {
+  setup() {
+    useMeta({ title: 'Categories' })
+  },
   name: 'categories-page',
   components: { CategoryCreate, CategoryEdit },
   data: () => ({

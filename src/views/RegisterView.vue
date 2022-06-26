@@ -73,8 +73,10 @@
 <script>
 import useVuelidate from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
+import { useMeta } from 'vue-meta'
 export default {
   setup() {
+    useMeta({ title: 'HomeBookkeeping' })
     return { v$: useVuelidate() }
   },
   name: 'Register-page',

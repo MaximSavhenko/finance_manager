@@ -56,8 +56,10 @@ import messages from '@/utils/messages'
 import ru from '@/locales/ru.json'
 import en from '@/locales/en.json'
 import { mapGetters } from 'vuex'
+import { useMeta } from 'vue-meta'
 export default {
   setup() {
+    useMeta({ title: 'HomeBookkeeping' })
     return { v$: useVuelidate() }
   },
   name: 'login-page',

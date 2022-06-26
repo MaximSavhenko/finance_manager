@@ -42,7 +42,11 @@
 import { mapGetters } from 'vuex'
 import ru from '@/locales/ru.json'
 import en from '@/locales/en.json'
+import { useMeta } from 'vue-meta'
 export default {
+  setup() {
+    useMeta({ title: 'DetailRecord' })
+  },
   name: 'detail-record',
   data: () => ({
     record: null,

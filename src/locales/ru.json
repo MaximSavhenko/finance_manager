@@ -48,5 +48,7 @@
     "Edit": "Редактировать",
     "CategoryCreated": "Категория была создана",
     "CategoryUpdated": "Категория успешно обновлена",
-    "HomeBookkeeping": "Домашняя бухгалтерия"
+    "HomeBookkeeping": "Домашняя бухгалтерия",
+    "Auth": "",
+    "DetailRecord": "Запись"
 }

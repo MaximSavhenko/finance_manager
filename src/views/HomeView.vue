@@ -27,7 +27,7 @@ import { useMeta } from 'vue-meta'
 
 export default {
   setup() {
-    useMeta({ title: 'Some Page' })
+    useMeta({ title: 'Check' })
   },
   components: { HomeBill, HomeCurrency },
   name: 'HomeView',
