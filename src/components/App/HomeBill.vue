@@ -38,7 +38,14 @@ export default {
   methods: {
     getCurrency(value) {
       const currency = (this.base * value.buy) / 1000
-      // const currencyFloor = Math.floor(currency)
+
+      if (value.ccy === 'EUR') {
+        return new Intl.NumberFormat('ru-RU', {
+          style: 'currency',
+          currency: value.ccy,
+        }).format(currency / (this.rates[1].sale / this.rates[0].sale))
+      }
+
       return new Intl.NumberFormat('ru-RU', {
         style: 'currency',
         currency: value.ccy,
