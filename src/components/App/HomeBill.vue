@@ -37,12 +37,12 @@ export default {
   },
   methods: {
     getCurrency(value) {
-      const currency = this.base / value.buy
-      const currencyFloor = Math.floor(currency)
+      const currency = (this.base * value.buy) / 1000
+      // const currencyFloor = Math.floor(currency)
       return new Intl.NumberFormat('ru-RU', {
         style: 'currency',
         currency: value.ccy,
-      }).format(currencyFloor)
+      }).format(currency)
     },
     localize(key) {
       const locales = {

@@ -7,7 +7,7 @@
     <LoaderVue v-if="loading" />
     <p class="center" v-else-if="!categories.length">
       {{ localize('NoCategory') }}
-      <router-link to="/categories">{{ localize('AddCat') }}</router-link>
+      <router-link to="/categories">{{ localize('AddNewCat') }}</router-link>
     </p>
     <section v-else>
       <div v-for="cat of categories" :key="cat.id">

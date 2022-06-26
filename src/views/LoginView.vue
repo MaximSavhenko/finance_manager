@@ -117,8 +117,6 @@ export default {
       }
     },
     localize(key) {
-      console.log(this.info)
-
       const locales = {
         'ru-RU': ru,
         'en-US': en,

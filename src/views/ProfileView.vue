@@ -61,6 +61,7 @@ export default {
   },
   mounted() {
     this.name = this.info.name
+
     this.isRuLocale = this.info.locale === 'ru-RU'
 
     setTimeout(() => {
@@ -90,6 +91,7 @@ export default {
       }
     },
     localize(key) {
+      console.log(this.info.locale)
       const locales = {
         'ru-RU': ru,
         'en-US': en,

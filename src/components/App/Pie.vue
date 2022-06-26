@@ -34,11 +34,11 @@ export default {
     },
     width: {
       type: Number,
-      default: 400,
+      default: 200,
     },
     height: {
       type: Number,
-      default: 400,
+      default: 200,
     },
     cssClasses: {
       default: '',

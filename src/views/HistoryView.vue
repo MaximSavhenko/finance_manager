@@ -88,3 +88,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.history-chart {
+  &.no-category {
+    display: none;
+  }
+}
+</style>
