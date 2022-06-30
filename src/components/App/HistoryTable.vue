@@ -38,14 +38,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
+
 export default {
   props: {
     records: { type: Array, required: true },
   },
   data: () => ({}),
   mounted() {},
+  mixins: [localizeMixin],
   methods: {
     baseFormatTable(value) {
       return new Intl.NumberFormat('ru-RU', {
@@ -68,14 +69,6 @@ export default {
       return new Intl.DateTimeFormat(this.info.locale, options).format(
         new Date(value)
       )
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
   computed: {

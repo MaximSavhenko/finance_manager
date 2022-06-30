@@ -29,14 +29,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
+
 export default {
   props: ['rates'],
   data: () => ({
     date: new Date(),
   }),
   mounted() {},
+  mixins: [localizeMixin],
   methods: {
     dateFilter(value, format = 'date') {
       value = this.date
@@ -51,14 +52,6 @@ export default {
       return new Intl.DateTimeFormat(this.info.locale, options).format(
         new Date(value)
       )
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
   computed: {

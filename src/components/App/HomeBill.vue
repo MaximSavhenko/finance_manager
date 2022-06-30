@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
 import { mapGetters } from 'vuex'
 export default {
   props: ['rates'],
   data: () => ({}),
+  mixins: [localizeMixin],
   computed: {
     ...mapGetters(['info']),
     baseFormat() {
@@ -50,14 +50,6 @@ export default {
         style: 'currency',
         currency: value.ccy,
       }).format(currency)
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

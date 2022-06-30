@@ -23,9 +23,9 @@
 import CategoryCreate from '@/components/App/CategoryCreate.vue'
 import CategoryEdit from '@/components/App/CategoryEdit.vue'
 import { mapGetters } from 'vuex'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
 import { useMeta } from 'vue-meta'
+import localizeMixin from '@/mixins/localize.mixin'
+
 export default {
   setup() {
     useMeta({ title: 'Categories' })
@@ -37,6 +37,7 @@ export default {
     loading: true,
     updateCount: 0,
   }),
+  mixins: [localizeMixin],
   async mounted() {
     this.categories = await this.$store.dispatch('fetchCategories')
     this.loading = false
@@ -53,14 +54,6 @@ export default {
       this.categories[idx].title = category.title
       this.categories[idx].limit = category.limit
       this.updateCount++
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

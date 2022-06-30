@@ -91,9 +91,9 @@
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
 import { mapGetters } from 'vuex'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
 import { useMeta } from 'vue-meta'
+import localizeMixin from '@/mixins/localize.mixin'
+
 export default {
   setup() {
     useMeta({ title: 'NewRecord' })
@@ -109,6 +109,7 @@ export default {
     amount: 1,
     description: '',
   }),
+  mixins: [localizeMixin],
   validations: {
     amount: { minValue: minValue(1) },
     description: { required },
@@ -176,14 +177,6 @@ export default {
       if ($name === 'minValue') {
         return this.localize('MinimumValue') + $param.min
       }
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
   unmounted() {

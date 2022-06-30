@@ -34,9 +34,8 @@
 import HistoryTable from '@/components/App/HistoryTable.vue'
 import Paginate from 'vuejs-paginate-next'
 import paginationMixin from '@/mixins/pagination.mixin.js'
+import localizeMixin from '@/mixins/localize.mixin'
 import Pie from '@/components/App/Pie.vue'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
 import { mapGetters } from 'vuex'
 import { useMeta } from 'vue-meta'
 export default {
@@ -49,7 +48,7 @@ export default {
     Pie,
   },
   name: 'history-page',
-  mixins: [paginationMixin],
+  mixins: [paginationMixin, localizeMixin],
   data: () => ({
     loading: true,
     records: [],
@@ -76,14 +75,6 @@ export default {
           }
         })
       )
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

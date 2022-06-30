@@ -74,6 +74,8 @@
 import useVuelidate from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
 import { useMeta } from 'vue-meta'
+import localizeMixin from '@/mixins/localize.mixin'
+
 export default {
   setup() {
     useMeta({ title: 'HomeBookkeeping' })
@@ -86,6 +88,7 @@ export default {
     name: '',
     agree: false,
   }),
+  mixins: [localizeMixin],
   validations: {
     email: { required, minLength: minLength(3), email },
     password: { required, minLength: minLength(6) },

@@ -30,8 +30,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
 import { useMeta } from 'vue-meta'
 export default {
   setup() {
@@ -42,6 +41,7 @@ export default {
     loading: true,
     categories: [],
   }),
+  mixins: [localizeMixin],
   computed: {
     ...mapGetters(['info']),
     baseFormat() {
@@ -88,14 +88,6 @@ export default {
         style: 'currency',
         currency: 'UAH',
       }).format(value)
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

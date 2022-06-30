@@ -51,8 +51,8 @@
 import useVuelidate from '@vuelidate/core'
 import { required, minValue } from '@vuelidate/validators'
 import { mapGetters } from 'vuex'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
+
 export default {
   setup() {
     return { v$: useVuelidate() }
@@ -61,6 +61,7 @@ export default {
     title: '',
     limit: 100,
   }),
+  mixins: [localizeMixin],
   validations: {
     title: { required },
     limit: { minValue: minValue(100) },
@@ -100,14 +101,6 @@ export default {
       if ($name === 'minValue') {
         return this.localize('MinimumValue') + $param.min
       }
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

@@ -20,9 +20,8 @@
 </template>
 
 <script>
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
 import { mapGetters } from 'vuex'
+import localizeMixin from '@/mixins/localize.mixin'
 export default {
   props: ['isOpen'],
   data: () => ({
@@ -34,18 +33,9 @@ export default {
       { title: 'Categories', url: '/categories' },
     ],
   }),
+  mixins: [localizeMixin],
   computed: {
     ...mapGetters(['info']),
-  },
-  methods: {
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
-    },
   },
 }
 </script>

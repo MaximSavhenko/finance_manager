@@ -53,8 +53,7 @@
 import useVuelidate from '@vuelidate/core'
 import { email, required, minLength } from '@vuelidate/validators'
 import messages from '@/utils/messages'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
 import { mapGetters } from 'vuex'
 import { useMeta } from 'vue-meta'
 export default {
@@ -67,6 +66,7 @@ export default {
     email: '',
     password: '',
   }),
+  mixins: [localizeMixin],
   validations: {
     email: { required, minLength: minLength(3), email },
     password: { required, minLength: minLength(6) },
@@ -115,14 +115,6 @@ export default {
           this.password.length
         )
       }
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

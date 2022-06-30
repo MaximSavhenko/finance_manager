@@ -42,9 +42,8 @@
 import { mapGetters, mapActions } from 'vuex'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
 import { useMeta } from 'vue-meta'
+import localizeMixin from '@/mixins/localize.mixin'
 
 export default {
   name: 'profile-page',
@@ -56,6 +55,7 @@ export default {
     name: '',
     isRuLocale: true,
   }),
+  mixins: [localizeMixin],
   validations: {
     name: { required },
   },
@@ -89,15 +89,6 @@ export default {
       if ($name === 'required') {
         return this.localize('ValidateName')
       }
-    },
-    localize(key) {
-      console.log(this.info.locale)
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

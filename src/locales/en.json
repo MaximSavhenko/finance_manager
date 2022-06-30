@@ -50,5 +50,6 @@
     "CategoryUpdated": "Category updated successfully",
     "HomeBookkeeping": "Home bookkeeping",
     "Auth": "",
-    "DetailRecord": "Details"
+    "DetailRecord": "Details",
+    "Out":"Out"
 }

@@ -20,8 +20,7 @@
 <script>
 import HomeBill from '@/components/App/HomeBill.vue'
 import HomeCurrency from '@/components/App/HomeCurrency.vue'
-import ru from '@/locales/ru.json'
-import en from '@/locales/en.json'
+import localizeMixin from '@/mixins/localize.mixin'
 import { mapGetters } from 'vuex'
 import { useMeta } from 'vue-meta'
 
@@ -42,19 +41,12 @@ export default {
   computed: {
     ...mapGetters(['info']),
   },
+  mixins: [localizeMixin],
   methods: {
     async refresh() {
       this.loading = true
       this.currency = await this.$store.dispatch('fetchCurrency')
       this.loading = false
-    },
-    localize(key) {
-      const locales = {
-        'ru-RU': ru,
-        'en-US': en,
-      }
-      const locale = this.info.locale || 'ru-RU'
-      return locales[locale][key] || `[Localize error]: key ${key} not found`
     },
   },
 }

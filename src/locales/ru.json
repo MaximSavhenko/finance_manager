@@ -50,5 +50,6 @@
     "CategoryUpdated": "Категория успешно обновлена",
     "HomeBookkeeping": "Домашняя бухгалтерия",
     "Auth": "",
-    "DetailRecord": "Запись"
+    "DetailRecord": "Запись",
+    "Out":"Выйти"
 }
