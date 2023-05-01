@@ -4,8 +4,6 @@ import en from '@/locales/en.json'
 export default {
   methods: {
     localize(key) {
-      console.log(key)
-
       const locales = {
         'ru-RU': ru,
         'en-US': en,
